@@ -36,35 +36,48 @@
 // }
 {
   "compilerOptions": {
-    "sourceMap": true,
     "target": "es5",
-    "lib": ["dom", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "ESNext"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "isolatedModules": true,
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
-    "outDir": "./dist",
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true, // es module 사용시 컴파일 단계에서 헬퍼 함수를 사용할 것인가
-    "strict": true, // strict family 속성 전부를 true로 할 것인가
-    "noImplicitAny": false, // any 타입으로 구현된 표현식 혹은 정의를 에러처리 할 것인가
-    "isolatedModules": true, // 각 파일을 분리된 모듈로 트랜스파일링할 것인가
-    "forceConsistentCasingInFileNames": true, // 사용할 파일의 이름을 대소문자까지 정확하게 작성하도록 강제할 것인가
-    "declaration": false, // d.ts 파일을 생성할 것인가
-    "removeComments": true, // 컴파일시 주석을 제거할 것인가
-    "strictFunctionTypes": true, // 함수, 메소드의 인자 타입을 더 정확히 추론할 것인가
-    "skipLibCheck": true, // 사용하는 라이브러리의 타입 검사를 skip할 것인가
-    "noImplicitThis": true, // any 타입으로 암시한 this 표현식에 오류를 보고할 것인가
-    "noFallthroughCasesInSwitch": true, // switch문에서 fallthrough case가 발견되면 에러를 발생시킬 것인가
-    "noImplicitReturns": true, // void가 아닌 함수가 리턴을 제대로 하지 않는 경우가 있다면 에러 발생
-    "noEmit": true, // 컴파일러가 js 파일 등 출력 결과물을 만들지 않을 것인가
-    "noEmitOnError": true // 에러 발생시 js 소스코드, source map, declaration 등이 생성되지 않는다
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+    // "sourceMap": true,
+    // "target": "ES5",
+    // "lib": ["dom", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "ESNext"],
+    // "allowJs": true,
+    // "strict": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "esModuleInterop": true,
+    // "module": "CommonJS",
+    // "jsx": "react",
+    // "allowSyntheticDefaultImports": true,
+
+    // "outDir": "./dist",
+    // "noImplicitAny": false, // any 타입으로 구현된 표현식 혹은 정의를 에러처리 할 것인가
+    // "isolatedModules": true, // 각 파일을 분리된 모듈로 트랜스파일링할 것인가
+    // "declaration": false, // d.ts 파일을 생성할 것인가
+    // "removeComments": true, // 컴파일시 주석을 제거할 것인가
+    // "strictFunctionTypes": true, // 함수, 메소드의 인자 타입을 더 정확히 추론할 것인가
+    // "noImplicitThis": true, // any 타입으로 암시한 this 표현식에 오류를 보고할 것인가
+    // "noFallthroughCasesInSwitch": true, // switch문에서 fallthrough case가 발견되면 에러를 발생시킬 것인가
+    // "noImplicitReturns": true, // void가 아닌 함수가 리턴을 제대로 하지 않는 경우가 있다면 에러 발생
+    // "noEmit": true, // 컴파일러가 js 파일 등 출력 결과물을 만들지 않을 것인가
+    // "noEmitOnError": true // 에러 발생시 js 소스코드, source map, declaration 등이 생성되지 않는다
   },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/node_modules/*"]
 }
