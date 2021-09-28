@@ -1,7 +1,24 @@
 const path = require('path');
+// 배포환경이면 true, 개발환경이면 false
 const isProd = process.env.NODE_ENV === 'production';
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
+// dotenv ->
+const dotenv = require('dotenv');
+const EnvironmentPluginObject = {};
+
+if (isProd) {
+  // env 파일 데이터를 가져온다
+  dotenv.config({ path: path.join(__dirname, '.env.production') });
+} else {
+  dotenv.config({ path: path.join(__dirname, '.env.development') });
+}
+
+Object.keys(process.env).forEach(key => {
+  // env파일에 REACT_APP_ 접두어가 있으면 임시 변수에 넣는다. 그 키값에 process env 값을 할당한다.
+  if (key.includes('REACT_APP_')) EnvironmentPluginObject[key] = process.env[key];
+});
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
@@ -45,7 +62,13 @@ module.exports = {
     ],
   },
 
+  // 후처리기 -> 번들링된걸수정한다는느낌
+  // 로더(전처리기) -> 빌드가됨(웹팩이 설정파일보고 함) -> 플러그인을 적용(번들링된 파일을 수정)
   plugins: [
+    // 빌트인
+    new webpack.EnvironmentPlugin({
+      ...EnvironmentPluginObject,
+    }),
     new HtmlWebpackPlugin({
       // 빌드 과정이 끝나고 번들한 css,js 파일등을 지정한 html에 link script 걸어준다.
       // index.html에 output에서 만들어진 bundle.js를 적용하여, dist에 새로운 html 파일 생성
