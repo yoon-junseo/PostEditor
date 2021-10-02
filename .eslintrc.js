@@ -118,6 +118,6 @@ module.exports = {
         extensions: ['.js', '.tsx', '.css', '.scss'],
       },
     },
-    'import/extensions': ['.js', '.ts', '.mjs', '.jsx', '.tsx'],
+    'import/extensions': ['.js', '.ts', '.mjs', '.jsx', '.tsx', 'scss'],
   },
 };
