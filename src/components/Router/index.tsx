@@ -6,7 +6,7 @@ import { Switch, Route, BrowserRouter, Link } from 'react-router-dom';
 function Router() {
   return (
     <BrowserRouter>
-      <Link to={routes.EDITOR}>editor</Link>
+      {/* <Link to={routes.EDITOR}>editor</Link> */}
       <Switch>
         <Route path={routes.EDITOR} exact component={EditorPage}></Route>
       </Switch>
