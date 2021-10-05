@@ -1,11 +1,13 @@
-import Button from '@/components/Button';
-import Editor from '@/components/Editor';
-import React from 'react';
-
+import JunzziEditor from '@/components/JunzziEditor/index';
+import React, { useState } from 'react';
+import styles from '@/containers/EditorPage/styles/editor.module.scss';
 function EditorPage() {
+  const [value, setValue] = useState<string>('');
   return (
-    <div>
-      <Editor></Editor>
+    <div className={styles.wrapper}>
+      <JunzziEditor value={value} setValue={setValue}></JunzziEditor>
+      {/* <JunzziEditor value={value} setValue={setValue}></JunzziEditor> */}
+      {/* <Result value={value}></Result> */}
     </div>
   );
 }

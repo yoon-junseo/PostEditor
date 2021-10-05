@@ -53,11 +53,41 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }],
+        exclude: /\.module\.scss$/,
+        use: [
+          { loader: 'style-loader' },
+
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                exportLocalsConvention: 'camelCaseOnly',
+              },
+            },
+          },
+          { loader: 'sass-loader' },
+        ],
       },
       {
-        test: /\.css$/i,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        test: /\.module\.scss$/i,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: '@teamsupercell/typings-for-css-modules-loader',
+            options: {
+              verifyOnly: isProd,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                exportLocalsConvention: 'camelCaseOnly',
+              },
+            },
+          },
+          { loader: 'sass-loader' },
+        ],
       },
     ],
   },
@@ -74,6 +104,7 @@ module.exports = {
       // index.html에 output에서 만들어진 bundle.js를 적용하여, dist에 새로운 html 파일 생성
       template: 'public/index.html',
     }),
+    new webpack.WatchIgnorePlugin({ paths: [/css\.d\.ts$/] }),
   ],
   devServer: {
     host: 'localhost',
