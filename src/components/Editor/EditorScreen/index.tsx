@@ -1,4 +1,4 @@
-import { EditorScreenType } from '@/components/JunzziEditor/EditorScreen/types';
+import { EditorScreenType } from '@/components/Editor/EditorScreen/types';
 import React from 'react';
 function EditorScreen({ setValue }: EditorScreenType) {
   const onChange = (e: React.FormEvent<HTMLDivElement>) => {
