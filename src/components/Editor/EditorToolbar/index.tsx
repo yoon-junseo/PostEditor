@@ -8,8 +8,9 @@ import {
   EditorDropdownStateType,
   CurrentType,
   EditorToolbarSelectType,
-} from '@/components/JunzziEditor/EditorToolbar/types';
+} from '@/components/Editor/EditorToolbar/types';
 
+/**이 객체는 각 Select Key별로 요소들을 저장해두는 객체이다. dropdown이 보여질때 안에 들어있는 요소들. */
 export const dropdownElements: DropdownElementsType = {
   제목: [
     <div data-index="0">제목 1</div>,
@@ -18,19 +19,24 @@ export const dropdownElements: DropdownElementsType = {
   ],
 };
 
+/* Select를 클릭하면 dropdown 상태에 값이 채워지고 DropDown 컴포넌트가 클릭된 Select 아래에 positioning */
 function Dropdown({ dropdown, setCurrent, setDropdown }: EditorDropdownType) {
+  /** DropDown 안에 요소가 클릭되면 트리거된다. */
   const onClickElementDropdown = (e: React.MouseEvent) => {
+    /** dataset에서 정보를 가져와 */
     const {
       dataset: { index },
     } = e.target as HTMLElement;
 
+    /** 현재 드랍다운 키의 current를 현재 클릭한 DropDown 요소로 변경한다.*/
     setCurrent(prev => ({
       ...prev,
       [`${dropdown.key}`]: dropdown.key && dropdownElements[dropdown.key][index ? +index : 0],
     }));
-    setDropdown(prev => ({ ...prev, show: false }));
+    /** 요소를 클릭하면 드랍다운은 꺼지게 된다. 처음 상태로 초기화해준다. */
+    setDropdown(prev => ({ ...prev, show: false, top: null, left: null, key: null }));
   };
-  return dropdown.show ? (
+  return (
     <div
       className={styles.dropdownWrapper}
       style={{ top: `${dropdown.top}px`, left: `${dropdown.left}px` }}
@@ -38,12 +44,13 @@ function Dropdown({ dropdown, setCurrent, setDropdown }: EditorDropdownType) {
     >
       {dropdown.key && dropdownElements[dropdown.key]}
     </div>
-  ) : null;
+  );
 }
 /** select. 제목 - 본문 - 색상 - 정렬 */
 function EditorToolbarSelect({ label, current, setDropdown }: EditorToolbarSelectType) {
   const ref = useRef<HTMLDivElement>(null);
 
+  /** Select를 클릭하면 DropDown을 열어야 하므로 dropdown의 상태를 변경한다. */
   const onClickSelect = () => {
     const el = ref.current;
     const top = el ? el.offsetTop + el.clientHeight : 0;
@@ -81,19 +88,29 @@ function EditorToolbarButton({ icon, label, color }: EditorToolbarButtonType) {
 
 // function EditorToolbarSelect({ icon, text, color }) {}
 function EditorToolbar() {
+  /**dropdown -> 드랍다운 컴포넌트가 가져야할 상태
+   * key : 어떤 Select인지
+   * top,left : 드랍다운이 띄워질 위치
+   * show : 드랍다운이 보여야하는지
+   */
+
   const [dropdown, setDropdown] = useState<EditorDropdownStateType>({
     show: false,
     key: null,
     top: null,
     left: null,
   });
-  // dropdown 이 변하면 -> css의 변수를 변경시키고, dropdown 클래스는 이 변수를 참조하게 하면 된다.
-  // https://stackoverflow.com/questions/49402471/how-to-use-javascript-variables-in-css
+  /**
+   * 여러개의 Select가 존재한다.
+   * 제목 Select의 경우 현재 요소가 무엇인지
+   * 본문 Select의 경우 현재 요소가 무엇인지 ...
+   * 를 객체 자료구조의 상태로 관리하게 된다.
+   */
   const [current, setCurrent] = useState<CurrentType>({ 제목: dropdownElements.제목[0] });
 
   return (
-    <div style={{ position: 'relative' }}>
-      <div className={styles.editorToolbarWrapper}>
+    <div className={styles.editorToolbarWrapper}>
+      <div className={styles.editorToolbarForm}>
         <EditorToolbarButton icon={'Image'} label="이미지"></EditorToolbarButton>
         <EditorToolbarSelect
           label="제목"
@@ -108,7 +125,11 @@ function EditorToolbar() {
         <EditorToolbarButton icon={'Seperator'} label="구분선"></EditorToolbarButton>
         <EditorToolbarButton icon={'Link'} label="링크"></EditorToolbarButton>
       </div>
-      <Dropdown dropdown={dropdown} setCurrent={setCurrent} setDropdown={setDropdown}></Dropdown>
+      {/* DropDown이 Select 별로 존재하지 않는다. 에디터툴바과 1:1 대응 */}
+      {/* Select를 클릭하면 dropdown 상태에 값이 채워지고 DropDown 컴포넌트가 클릭된 Select 아래에 positioning */}
+      {dropdown.show && (
+        <Dropdown dropdown={dropdown} setCurrent={setCurrent} setDropdown={setDropdown}></Dropdown>
+      )}
     </div>
   );
 }
