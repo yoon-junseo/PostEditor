@@ -7,3 +7,5 @@ export { default as CenterAlign } from './CenterAlign';
 export { default as RightAlign } from './RightAlign';
 export { default as Memo } from './Memo';
 export { default as Seperator } from './Seperator';
+export { default as Link } from './Link';
+export { default as Tri } from './Tri';
