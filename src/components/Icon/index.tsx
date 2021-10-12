@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as icons from '@/components/Icon/icons';
-import styles from './styles.scss';
+import styles from './icon.module.scss';
 
 type IconOption = keyof typeof icons;
 interface IIconProps {
