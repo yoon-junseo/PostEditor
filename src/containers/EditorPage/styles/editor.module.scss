@@ -65,11 +65,24 @@
       /* Editor Component > DropDown Component*/
       & .dropdown-wrapper {
         position: fixed;
-        background-color: red;
 
         // max-width: max-content;
         min-width: 130px;
         transform: translateX(-23%);
+
+        border: 1px solid pink;
+        border-radius: 10px;
+        background-color: white;
+        color: pink;
+        box-sizing: border-box;
+
+        & > div {
+          padding: 10px;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid pink;
+          }
+        }
       }
     }
     & .editor-screen-wrapper {
